@@ -77,4 +77,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
     kapt "com.google.dagger:dagger-android-support:$dagger2_version"
+
+
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
 }
