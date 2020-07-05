@@ -3,6 +3,7 @@ package com.example.newsapplication.di.modules
 import com.example.newsapplication.repository.NewsRepo
 import com.example.newsapplication.utils.C
 import com.example.newsapplication.viewmodels.NewsViewModelViewFactory
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -27,8 +28,8 @@ class ApiModule constructor(baseUrl: String) {
     @Provides
     fun providesOkHTTP(): OkHttpClient {
         return OkHttpClient.Builder()
-                .connectTimeout(C.TIMEOUT_CONNECT.toLong(), TimeUnit.SECONDS)
-                .readTimeout(C.TIMEOUT_READ.toLong(), TimeUnit.SECONDS).build()
+            .connectTimeout(C.TIMEOUT_CONNECT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(C.TIMEOUT_READ.toLong(), TimeUnit.SECONDS).build()
     }
 
     @Singleton
@@ -39,13 +40,16 @@ class ApiModule constructor(baseUrl: String) {
 
     @Singleton
     @Provides
-    fun provideRetrofit(gsonConverterFactory: GsonConverterFactory,
-                        okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(
+        gsonConverterFactory: GsonConverterFactory,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(gsonConverterFactory)
-                .client(okHttpClient)
-                .build()
+            .baseUrl(baseUrl)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides
@@ -54,7 +58,7 @@ class ApiModule constructor(baseUrl: String) {
     }
 
     @Provides
-    fun provideNewsViewModelFactory() : NewsViewModelViewFactory{
+    fun provideNewsViewModelFactory(): NewsViewModelViewFactory {
         return NewsViewModelViewFactory()
     }
 }

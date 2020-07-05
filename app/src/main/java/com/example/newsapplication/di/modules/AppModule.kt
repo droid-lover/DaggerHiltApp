@@ -1,5 +1,6 @@
 package com.example.newsapplication.di.modules
 
+
 import com.example.newsapplication.app.NewsApp
 import dagger.Module
 import dagger.Provides
