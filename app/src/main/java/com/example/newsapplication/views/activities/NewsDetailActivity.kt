@@ -1,10 +1,11 @@
 package com.example.newsapplication.views.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.transition.TransitionManager
 import com.example.newsapplication.R
 import com.example.newsapplication.models.Articles
 import com.example.newsapplication.utils.C
@@ -12,10 +13,17 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news_detail.*
 import kotlinx.android.synthetic.main.content_news_detail.*
 import java.text.SimpleDateFormat
+
+
 /**
  * Created by Sachin
  */
 class NewsDetailActivity : AppCompatActivity() {
+
+    private var mShowBigImage = false
+    private val mConstraintSetNormal = ConstraintSet()
+    private val mConstraintSetBig = ConstraintSet()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +33,23 @@ class NewsDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        mConstraintSetNormal.clone(constraintScene)
+        mConstraintSetBig.load(this, R.layout.content_news_detail_enlarged_scene)
+
         getNewsDataFromIntent()
+        sdvNewsDetailsCover.setOnClickListener {
+            toggleMode()
+        }
+    }
+
+    private fun toggleMode() {
+        TransitionManager.beginDelayedTransition(constraintScene)
+        mShowBigImage = !mShowBigImage
+        if (mShowBigImage) {
+            mConstraintSetBig.applyTo(constraintScene)
+        } else {
+            mConstraintSetNormal.applyTo(constraintScene)
+        }
     }
 
     private fun getNewsDataFromIntent() {
@@ -42,7 +66,32 @@ class NewsDetailActivity : AppCompatActivity() {
         article.description?.also { tvNewsDetailsDescription.text = it }
         article.publishedAt?.also { tvNewsDetailsPublishedDate.text = getDayFromDate(it) }
         article.author?.also { tvNewsDetailsAuthor.text = "Author - $it\n" }
-        article.content?.also { tvNewsDetailsOtherData.text =it}
+        article.content?.also {
+            tvNewsDetailsOtherData.text = it + "n" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "n"
+        }
     }
 
     private fun getDayFromDate(dateValue: String): String {
