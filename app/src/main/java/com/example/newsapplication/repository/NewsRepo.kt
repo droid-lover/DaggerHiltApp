@@ -8,6 +8,7 @@ import com.example.newsapplication.apis.APIs
 import com.example.newsapplication.app.NewsApp
 import com.example.newsapplication.database.NewsDatabase
 import com.example.newsapplication.di.components.AppComponent
+import com.example.newsapplication.models.Articles
 import com.example.newsapplication.utils.Result
 import com.example.newsapplication.utils.C
 import com.google.gson.Gson
@@ -16,8 +17,12 @@ import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
+import javax.security.auth.callback.Callback
+
 /**
  * Created by Sachin.
  */
@@ -29,66 +34,67 @@ class NewsRepo : Repo() {
     }
 
     @Inject
-    lateinit var retrofit:Retrofit
+    lateinit var retrofit: Retrofit
 
 
-    private val _newsHeadlines = MutableLiveData<Result<NewsHeadlines>>()
-    val newsHeadlines: LiveData<Result<NewsHeadlines>> = _newsHeadlines
+    private val _newsHeadlines: MutableLiveData<List<Articles>> = MutableLiveData()
+    var newsHeadlines: LiveData<List<Articles>> = _newsHeadlines
 
-
-    fun getNewsHeadlines(context: Context) {
+    fun getNewsHeadlines(context: Context): LiveData<List<Articles>> {
         _showProgressBar.value = true
 
         disposables.add(
-                Maybe.fromCallable {
-                    NewsDatabase.getDatabase(context).newsDao().getNewsHeadlinesFromDB()
-                }.toSingle().subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
-                            override fun onSuccess(newsHeadlines: NewsHeadlines) {
-                                Log.d("ComingHere", "inside_onSuccess ${Gson().toJson(newsHeadlines)}")
-                                _newsHeadlines.postValue(Result.Success(newsHeadlines))
-                            }
+            Maybe.fromCallable {
+                NewsDatabase.getDatabase(context).newsDao().getNewsHeadlinesFromDB()
+            }.toSingle().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
+                    override fun onSuccess(newsHeadlines: NewsHeadlines) {
+                        Log.d("ComingHere", "inside_onSuccess ${Gson().toJson(newsHeadlines)}")
+                        _newsHeadlines.value = newsHeadlines.articles
+                    }
 
-                            override fun onError(e: Throwable) {
-                                Log.d("ComingHere", "inside_onError ${e.localizedMessage}")
-                                getNewsHeadlinesFromServer(context)
-                            }
+                    override fun onError(e: Throwable) {
+                        Log.d("ComingHere", "inside_onError ${e.localizedMessage}")
+                        getNewsHeadlinesFromServer(context)
+                    }
 
-                        })
+                })
         )
+        return _newsHeadlines
     }
 
-    private fun getNewsHeadlinesFromServer(context: Context) {
-        val apis:APIs = retrofit.create(APIs::class.java)
+    fun getNewsHeadlinesFromServer(context: Context): LiveData<List<Articles>> {
+        val apis: APIs = retrofit.create(APIs::class.java)
 
         disposables.add(
-                apis.getNewsHeadlines("us", C.API_KEY)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
-                            override fun onSuccess(data: NewsHeadlines) {
-                                _newsHeadlines.postValue(Result.Success(data))
-                                saveNewsInDb(context, data)
-                                _showProgressBar.postValue(false)
-                            }
+            apis.getNewsHeadlines("us", C.API_KEY)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
+                    override fun onSuccess(data: NewsHeadlines) {
+                        _newsHeadlines.postValue(data.articles)
+                        saveNewsInDb(context, data)
+                        _showProgressBar.postValue(false)
+                    }
 
-                            override fun onError(throwable: Throwable) {
-                                _newsHeadlines.postValue(Result.Failure(throwable))
-                                _showProgressBar.postValue(false)
-                            }
-                        })
+                    override fun onError(throwable: Throwable) {
+                        _showProgressBar.postValue(false)
+                    }
+                })
         )
+        return _newsHeadlines
+
     }
 
     private fun saveNewsInDb(context: Context, data: NewsHeadlines) {
         val news = NewsHeadlines(data.status, data.totalResults, data.articles)
         Observable.fromCallable {
             NewsDatabase.getDatabase(context).newsDao()
-                    .insertNews(news)
+                .insertNews(news)
         }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
 

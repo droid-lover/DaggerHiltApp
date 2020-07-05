@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapplication.R
 import com.example.newsapplication.models.Articles
-import com.example.newsapplication.models.NewsHeadlines
 import com.example.newsapplication.utils.C
 import com.example.newsapplication.views.activities.NewsDetailActivity
 import kotlinx.android.synthetic.main.item_mix_news.view.*
@@ -20,7 +19,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by Sachin.
  */
-class NewsHeadlinesAdapter(private val context: Context, private val newsHeadlines: NewsHeadlines, private val viewType: Boolean) :
+class NewsHeadlinesAdapter(private val context: Context, private val newsHeadlines: List<Articles>, private val viewType: Boolean) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -31,7 +30,7 @@ class NewsHeadlinesAdapter(private val context: Context, private val newsHeadlin
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        newsHeadlines.articles?.also {
+        newsHeadlines.also {
             when (holder) {
                 is TypeTopHeadlinesViewHolder -> holder.bindToView(it[position])
                 is MixNewsViewHolder -> holder.bindToView(it[position])
@@ -40,7 +39,7 @@ class NewsHeadlinesAdapter(private val context: Context, private val newsHeadlin
     }
 
     override fun getItemCount(): Int {
-        return newsHeadlines.articles?.size ?: 0
+        return newsHeadlines.size ?: 0
     }
 
     inner class TypeTopHeadlinesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
