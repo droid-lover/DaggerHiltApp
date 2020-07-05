@@ -1,13 +1,17 @@
 package com.example.newsapplication.di.components
 
+import android.content.Context
 import com.example.newsapplication.di.modules.ApiModule
 import com.example.newsapplication.di.modules.AppModule
 import com.example.newsapplication.repository.NewsRepo
 import com.example.newsapplication.viewmodels.NewsViewModel
 import com.example.newsapplication.viewmodels.NewsViewModelViewFactory
 import com.example.newsapplication.views.fragments.NewsFragment
+import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Named
 import javax.inject.Singleton
+
 
 /**
  * Created by Sachin

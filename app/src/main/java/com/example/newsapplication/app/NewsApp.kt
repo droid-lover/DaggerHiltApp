@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication
 import com.example.newsapplication.di.components.AppComponent
 import com.example.newsapplication.di.components.DaggerAppComponent
 import com.example.newsapplication.di.modules.ApiModule
+import com.example.newsapplication.di.modules.AppModule
 import com.example.newsapplication.utils.C
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.util.ByteConstants
@@ -21,8 +22,9 @@ class NewsApp : MultiDexApplication() {
         instance = this
         initializeFresco()
         appComponent = DaggerAppComponent.builder()
-                .apiModule(ApiModule(C.BASE_URL1))
-                .build()
+            .apiModule(ApiModule(C.BASE_URL1))
+            .appModule(AppModule(this))
+            .build()
     }
 
     companion object {
@@ -39,23 +41,23 @@ class NewsApp : MultiDexApplication() {
     private fun initializeFresco() {
 
         val bitmapCacheParams = MemoryCacheParams(
-                MAX_MEMORY_CACHE_SIZE, // Max total size of elements in the cache
-                Integer.MAX_VALUE, // Max entries in the cache
-                MAX_MEMORY_CACHE_SIZE, // Max total size of elements in eviction queue
-                Integer.MAX_VALUE, // Max length of eviction queue
-                Integer.MAX_VALUE
+            MAX_MEMORY_CACHE_SIZE, // Max total size of elements in the cache
+            Integer.MAX_VALUE, // Max entries in the cache
+            MAX_MEMORY_CACHE_SIZE, // Max total size of elements in eviction queue
+            Integer.MAX_VALUE, // Max length of eviction queue
+            Integer.MAX_VALUE
         )
 
         val config = ImagePipelineConfig.newBuilder(this)
-                .setBitmapMemoryCacheParamsSupplier { bitmapCacheParams }
-                .setMainDiskCacheConfig(
-                        DiskCacheConfig.newBuilder(this)
-                                .setBaseDirectoryPath(applicationContext.cacheDir)
-                                .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR)
-                                .setMaxCacheSize(MAX_DISK_CACHE_SIZE.toLong())
-                                .build()
-                )
-                .build()
+            .setBitmapMemoryCacheParamsSupplier { bitmapCacheParams }
+            .setMainDiskCacheConfig(
+                DiskCacheConfig.newBuilder(this)
+                    .setBaseDirectoryPath(applicationContext.cacheDir)
+                    .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR)
+                    .setMaxCacheSize(MAX_DISK_CACHE_SIZE.toLong())
+                    .build()
+            )
+            .build()
         Fresco.initialize(this, config)
 
     }
