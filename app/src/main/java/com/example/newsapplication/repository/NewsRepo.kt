@@ -36,11 +36,13 @@ class NewsRepo : Repo() {
     @Inject
     lateinit var retrofit: Retrofit
 
+    @Inject
+    lateinit var context: Context
 
     private val _newsHeadlines: MutableLiveData<List<Articles>> = MutableLiveData()
     var newsHeadlines: LiveData<List<Articles>> = _newsHeadlines
 
-    fun getNewsHeadlines(context: Context): LiveData<List<Articles>> {
+    fun getNewsHeadlinesData(): LiveData<List<Articles>> {
         _showProgressBar.value = true
 
         disposables.add(
@@ -56,7 +58,7 @@ class NewsRepo : Repo() {
 
                     override fun onError(e: Throwable) {
                         Log.d("ComingHere", "inside_onError ${e.localizedMessage}")
-                        getNewsHeadlinesFromServer(context)
+                        getNewsHeadlinesFromServer()
                     }
 
                 })
@@ -64,7 +66,7 @@ class NewsRepo : Repo() {
         return _newsHeadlines
     }
 
-    fun getNewsHeadlinesFromServer(context: Context): LiveData<List<Articles>> {
+    fun getNewsHeadlinesFromServer(): LiveData<List<Articles>> {
         val apis: APIs = retrofit.create(APIs::class.java)
 
         disposables.add(

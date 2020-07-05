@@ -27,8 +27,8 @@ class NewsViewModel(newsRepo: NewsRepo) : ViewModel() {
         repo.onCleared()
     }
 
-    fun getNewsHeadlines(context: Context) {
-        newsHeadlines = repo.getNewsHeadlines(context)
+    fun getNewsHeadlines() {
+        newsHeadlines = repo.getNewsHeadlinesData()
     }
 
 }
