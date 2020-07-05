@@ -27,7 +27,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         super.onViewCreated(view, savedInstanceState)
         NewsApp.appComponent.inject(this)
         observeViewModelChanges()
-        newsViewModel.getNewsHeadlines(activity!!)
+        newsViewModel.getNewsHeadlines()
     }
 
     private fun observeViewModelChanges() {
