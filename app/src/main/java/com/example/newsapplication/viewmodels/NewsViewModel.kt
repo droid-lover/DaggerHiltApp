@@ -21,6 +21,7 @@ class NewsViewModel(newsRepo: NewsRepo) : ViewModel() {
     var showProgressBar = repo.showProgressBar
 
     var newsHeadlines = repo.newsHeadlines
+    var error = repo.error
 
     override fun onCleared() {
         super.onCleared()

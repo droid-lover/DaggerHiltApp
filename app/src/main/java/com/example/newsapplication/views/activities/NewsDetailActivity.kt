@@ -60,37 +60,14 @@ class NewsDetailActivity : AppCompatActivity() {
     }
 
     private fun setUpNewsLayout(article: Articles) {
-        Log.d("ComingHere", "Inside_setUpNewsLayout ${Gson().toJson(article)}")
+//        Log.d("ComingHere", "Inside_setUpNewsLayout ${Gson().toJson(article)}")
         article.urlToImage?.also { sdvNewsDetailsCover.setImageURI(it) }
         article.title?.also { tvNewsDetailsTitle.text = it }
         article.description?.also { tvNewsDetailsDescription.text = it }
         article.publishedAt?.also { tvNewsDetailsPublishedDate.text = getDayFromDate(it) }
         article.author?.also { tvNewsDetailsAuthor.text = "Author - $it\n" }
         article.content?.also {
-            tvNewsDetailsOtherData.text = it + "n" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "" +
-                    "n"
+            tvNewsDetailsOtherData.text = it
         }
     }
 

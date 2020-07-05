@@ -3,6 +3,7 @@ package com.example.newsapplication.views.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapplication.R
@@ -35,6 +36,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             it?.also {
                 setNews(it)
             }
+        })
+
+        newsViewModel.showProgressBar.observe(this, androidx.lifecycle.Observer {
+            shimmerViewContainer.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        newsViewModel.error.observe(this, androidx.lifecycle.Observer {
+            activity?.also { context -> Toast.makeText(context, it, Toast.LENGTH_LONG) }
         })
     }
 

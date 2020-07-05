@@ -42,6 +42,10 @@ class NewsRepo : Repo() {
     private val _newsHeadlines: MutableLiveData<List<Articles>> = MutableLiveData()
     var newsHeadlines: LiveData<List<Articles>> = _newsHeadlines
 
+    private val _error: MutableLiveData<String> = MutableLiveData()
+    var error: LiveData<String> = _error
+
+
     fun getNewsHeadlinesData(): LiveData<List<Articles>> {
         _showProgressBar.value = true
 
@@ -52,12 +56,12 @@ class NewsRepo : Repo() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
                     override fun onSuccess(newsHeadlines: NewsHeadlines) {
-                        Log.d("ComingHere", "inside_onSuccess ${Gson().toJson(newsHeadlines)}")
+//                        Log.d("ComingHere", "inside_onSuccess ${Gson().toJson(newsHeadlines)}")
                         _newsHeadlines.value = newsHeadlines.articles
                     }
 
                     override fun onError(e: Throwable) {
-                        Log.d("ComingHere", "inside_onError ${e.localizedMessage}")
+//                        Log.d("ComingHere", "inside_onError ${e.localizedMessage}")
                         getNewsHeadlinesFromServer()
                     }
 
@@ -81,6 +85,7 @@ class NewsRepo : Repo() {
                     }
 
                     override fun onError(throwable: Throwable) {
+                        _error.postValue("Error: ${throwable.localizedMessage}")
                         _showProgressBar.postValue(false)
                     }
                 })
