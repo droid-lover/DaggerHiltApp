@@ -20,8 +20,7 @@
             android:id="@+id/sdvNewsDetailsCover"
             android:layout_width="match_parent"
             android:layout_height="215dp"
-            android:background="@color/colorBg
-"
+            android:background="@color/colorBg"
             fresco:actualImageScaleType="fitXY"
             fresco:failureImageScaleType="fitXY"
             fresco:placeholderImageScaleType="fitXY" />
