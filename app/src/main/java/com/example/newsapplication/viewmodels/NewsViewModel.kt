@@ -1,10 +1,6 @@
 package com.example.newsapplication.viewmodels
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.newsapplication.models.Articles
 import com.example.newsapplication.repository.NewsRepo
 
 /**

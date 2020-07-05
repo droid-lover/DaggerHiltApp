@@ -17,6 +17,9 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
+/**
+ * Created by Sachin
+ */
 @RunWith(MockitoJUnitRunner.Silent::class)
 class NewsViewModelTest {
 
@@ -42,9 +45,15 @@ class NewsViewModelTest {
         // retroViewModel.postInfoLiveData
     }
 
+    @Test
+    fun testNewsDataIsNotNull() {
+        Mockito.`when`(newsRepo.getNewsHeadlinesFromServer()).thenReturn(mockNewsLiveData)
+        newsViewModel.newsHeadlines = mockNewsLiveData
+        Assert.assertNotNull(newsViewModel.newsHeadlines.value)
+    }
 
     @Test
-    fun fetchNewsFromRepositoryTest() {
+    fun testNewsDataFromRepo() {
         Mockito.`when`(newsRepo.getNewsHeadlinesFromServer()).thenReturn(mockNewsLiveData)
         newsViewModel.newsHeadlines = mockNewsLiveData
         Assert.assertNotNull(newsViewModel.newsHeadlines.value)
