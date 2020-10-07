@@ -1,10 +1,10 @@
 package com.example.newsapplication.app
 
 import androidx.multidex.MultiDexApplication
-import com.example.newsapplication.di.components.AppComponent
-import com.example.newsapplication.di.components.DaggerAppComponent
-import com.example.newsapplication.di.modules.ApiModule
-import com.example.newsapplication.di.modules.AppModule
+import com.example.newsapplication.di_dagger.components.AppComponent
+import com.example.newsapplication.di_dagger.components.DaggerAppComponent
+import com.example.newsapplication.di_dagger.modules.ApiModule
+import com.example.newsapplication.di_dagger.modules.AppModule
 import com.example.newsapplication.utils.C
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.util.ByteConstants

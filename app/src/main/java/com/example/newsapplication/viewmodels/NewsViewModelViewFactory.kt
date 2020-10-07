@@ -1,10 +1,9 @@
 package com.example.newsapplication.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsapplication.app.NewsApp
-import com.example.newsapplication.di.components.AppComponent
+import com.example.newsapplication.di_dagger.components.AppComponent
 import com.example.newsapplication.repository.NewsRepo
 import javax.inject.Inject
 

@@ -1,27 +1,20 @@
 package com.example.newsapplication.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.newsapplication.apis.APIs
 import com.example.newsapplication.app.NewsApp
 import com.example.newsapplication.database.NewsDatabase
-import com.example.newsapplication.di.components.AppComponent
 import com.example.newsapplication.models.Articles
-import com.example.newsapplication.utils.Result
 import com.example.newsapplication.utils.C
-import com.google.gson.Gson
 import com.example.newsapplication.models.NewsHeadlines
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
-import javax.security.auth.callback.Callback
 
 /**
  * Created by Sachin.

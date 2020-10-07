@@ -1,4 +1,4 @@
-package com.example.newsapplication.di.modules
+package com.example.newsapplication.di_dagger.modules
 
 import com.example.newsapplication.repository.NewsRepo
 import com.example.newsapplication.utils.C
