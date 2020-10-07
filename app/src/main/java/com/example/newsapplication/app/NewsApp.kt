@@ -1,39 +1,50 @@
 package com.example.newsapplication.app
 
+import android.app.Activity
+import android.app.Application
 import androidx.multidex.MultiDexApplication
-import com.example.newsapplication.di_dagger.components.AppComponent
-import com.example.newsapplication.di_dagger.components.DaggerAppComponent
-import com.example.newsapplication.di_dagger.modules.ApiModule
-import com.example.newsapplication.di_dagger.modules.AppModule
 import com.example.newsapplication.utils.C
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.util.ByteConstants
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.cache.MemoryCacheParams
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import dagger.hilt.android.HiltAndroidApp
 
 /**
  * Created by Sachin
  */
-class NewsApp : MultiDexApplication() {
+
+/**
+ *@HiltAndroidApp: we need to apply this annotation to our Application class,
+ *  It will trigger the Hilt code generation and in the process will create our App Component.
+ */
+
+@HiltAndroidApp
+class NewsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         initializeFresco()
-        appComponent = DaggerAppComponent.builder()
-            .apiModule(ApiModule(C.BASE_URL1))
-            .appModule(AppModule(this))
-            .build()
+
+        //Code for previous Dagger2
+//        appComponent = DaggerAppComponent.builder()
+//            .apiModule(ApiModule(C.BASE_URL1))
+//            .appModule(AppModule(this))
+//            .build()
     }
 
     companion object {
         @get:Synchronized
         var instance: NewsApp? = null
         private val MAX_HEAP_SIZE = Runtime.getRuntime().maxMemory().toInt()
-
-        lateinit var appComponent: AppComponent
+        fun applicationContext(): NewsApp {
+            return instance as NewsApp
+        }
     }
+
+
 
     private val MAX_DISK_CACHE_SIZE = 40 * ByteConstants.MB
     private val MAX_MEMORY_CACHE_SIZE = MAX_HEAP_SIZE / 4

@@ -9,6 +9,7 @@ import com.example.newsapplication.database.NewsDatabase
 import com.example.newsapplication.models.Articles
 import com.example.newsapplication.utils.C
 import com.example.newsapplication.models.NewsHeadlines
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
@@ -19,18 +20,8 @@ import javax.inject.Inject
 /**
  * Created by Sachin.
  */
-class NewsRepo : Repo() {
 
-    init {
-        val appComponent = NewsApp.appComponent
-        appComponent.inject(this)
-    }
-
-    @Inject
-    lateinit var retrofit: Retrofit
-
-    @Inject
-    lateinit var context: Context
+class NewsRepo @Inject constructor(private val  retrofit: Retrofit): Repo() {
 
     private val _newsHeadlines: MutableLiveData<List<Articles>> = MutableLiveData()
     var newsHeadlines: LiveData<List<Articles>> = _newsHeadlines
@@ -44,7 +35,7 @@ class NewsRepo : Repo() {
 
         disposables.add(
             Maybe.fromCallable {
-                NewsDatabase.getDatabase(context).newsDao().getNewsHeadlinesFromDB()
+                NewsDatabase.getDatabase(NewsApp.applicationContext()).newsDao().getNewsHeadlinesFromDB()
             }.toSingle().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
@@ -73,7 +64,7 @@ class NewsRepo : Repo() {
                 .subscribeWith(object : DisposableSingleObserver<NewsHeadlines>() {
                     override fun onSuccess(data: NewsHeadlines) {
                         _newsHeadlines.postValue(data.articles)
-                        saveNewsInDb(context, data)
+                        saveNewsInDb(NewsApp.applicationContext(), data)
                         _showProgressBar.postValue(false)
                     }
 

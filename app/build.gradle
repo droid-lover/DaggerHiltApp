@@ -33,6 +33,25 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
+
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -72,12 +91,12 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     
-    ext.dagger2_version = '2.24'
-    implementation "com.google.dagger:dagger:$dagger2_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
-    implementation "com.google.dagger:dagger-android:$dagger2_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
-    kapt "com.google.dagger:dagger-android-support:$dagger2_version"
+//    ext.dagger2_version = '2.24'
+//    implementation "com.google.dagger:dagger:$dagger2_version"
+//    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
+//    implementation "com.google.dagger:dagger-android:$dagger2_version"
+//    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
+//    kapt "com.google.dagger:dagger-android-support:$dagger2_version"
 
 
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
@@ -92,5 +111,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
 
 }

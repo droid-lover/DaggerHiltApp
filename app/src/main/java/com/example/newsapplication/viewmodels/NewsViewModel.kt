@@ -1,18 +1,19 @@
 package com.example.newsapplication.viewmodels
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.example.newsapplication.repository.NewsRepo
+import retrofit2.Retrofit
 
 /**
  * Created by Sachin
  */
-class NewsViewModel(newsRepo: NewsRepo) : ViewModel() {
 
-    lateinit var repo: NewsRepo
 
-    init {
-        this.repo = newsRepo
-    }
+class NewsViewModel @ViewModelInject constructor(
+    private val repo: NewsRepo
+) : ViewModel() {
+
 
     var showProgressBar = repo.showProgressBar
 
