@@ -1,8 +1,5 @@
 # News Sample App using HILT
 
-![NewsSampleUsingHILT](https://github.com/myJarvis/news_application/raw/master/images/sampleimage.png)
-
-
 This Project is made up of these things -
 
  - Android SDK 
@@ -16,3 +13,7 @@ there are few Animations also, using -
  - Lottie
 
 Tutorial link - https://medium.com/native-mobile-bits/hilt-a-new-way-of-dependency-injection-building-a-sample-news-app-a150f59c2c2b
+
+
+![NewsSampleUsingHILT](https://github.com/myJarvis/news_application/raw/master/images/sampleimage.png)
+
