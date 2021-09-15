@@ -9,7 +9,8 @@ This Project is made up of these things -
  - Junit & Mockito
 
 there are few Animations also, using -
- - Constraint Set
+
+- Constraint Set
  - Lottie
 
 Tutorial link - https://medium.com/native-mobile-bits/hilt-a-new-way-of-dependency-injection-building-a-sample-news-app-a150f59c2c2b
