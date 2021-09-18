@@ -13,7 +13,7 @@ there are few Animations also, using -
 - Constraint Set
  - Lottie
 
-Tutorial link - https://medium.com/native-mobile-bits/hilt-a-new-way-of-dependency-injection-building-a-sample-news-app-a150f59c2c2b
+HILT Article link - https://medium.com/native-mobile-bits/hilt-a-new-way-of-dependency-injection-building-a-sample-news-app-a150f59c2c2b
 
 
 ![NewsSampleUsingHILT](https://github.com/myJarvis/news_application/raw/master/images/sampleimage.png)
