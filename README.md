@@ -1,6 +1,6 @@
 # News Sample App using HILT
 
-This Project is made up of these things -
+This Project is made up of these things :
 
  - Android SDK 
  - Kotlin 
